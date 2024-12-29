@@ -11,7 +11,7 @@ export class CompilerController {
   ) {}
 
   @Post('erc20')
-  async compileERC20(@Body() dto: ERC20CompileDto): Promise<string> {
+  async compileERC20(@Body() dto: ERC20CompileDto) {
     this.ethCompiler.setStrategy(this.erc20Compiler);
     return this.ethCompiler.compile(dto);
   }
