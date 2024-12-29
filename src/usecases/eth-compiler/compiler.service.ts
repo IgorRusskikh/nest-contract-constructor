@@ -1,5 +1,6 @@
 import { BaseCompiler } from 'src/infrastructure/abstracts/abstract-compiler/abstract-compiler';
 import { Injectable } from '@nestjs/common';
+import TestETHDto from 'src/infrastructure/dtos/test-eth/test-eth.dto';
 
 @Injectable()
 export class ETHCompiler {
@@ -9,17 +10,17 @@ export class ETHCompiler {
     this.strategy = strategy;
   }
 
-  compile(dto: any): Promise<string> {
+  compile(dto: any): Promise<TestETHDto> {
     if (!this.strategy) {
       throw new Error('Strategy is not set');
     }
     return this.strategy.compile(dto);
   }
 
-  validate(sourceCode: string): Promise<boolean> {
+  validate(deployData: TestETHDto): Promise<boolean> {
     if (!this.strategy) {
       throw new Error('Strategy is not set');
     }
-    return this.strategy.validate(sourceCode);
+    return this.strategy.validate(deployData);
   }
 }
