@@ -1,9 +1,12 @@
 import { existsSync, readFileSync } from 'fs';
 
 import { BadRequestException } from '@nestjs/common';
+import TestETHDto from 'src/infrastructure/dtos/test-eth/test-eth.dto';
 import { resolve } from 'path';
 
 export abstract class BaseCompiler {
+  readonly compilerVersion = 'v0.8.28+commit.7893614a';
+
   format(sourceCode: string): string {
     if (sourceCode.length) {
       const licenseRegex = /\/\/\s*SPDX-License-Identifier:\s*MIT/g;
@@ -32,6 +35,6 @@ export abstract class BaseCompiler {
     };
   }
 
-  abstract compile(dto: any): Promise<string>;
-  abstract validate(sourceCode: string): Promise<boolean>;
+  abstract compile(dto: any): Promise<TestETHDto>;
+  abstract validate(deployData: TestETHDto): Promise<boolean>;
 }
