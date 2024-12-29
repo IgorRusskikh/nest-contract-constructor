@@ -1,5 +1,5 @@
-import ICompiler from '../eth-compiler/eth-compiler.interface';
+import IETHCompiler from '../eth-compiler/eth-compiler.interface';
 
-export default interface ICompilerERC20 extends ICompiler {
+export default interface ICompilerERC20 extends IETHCompiler {
   initialSupply: number;
 }
