@@ -36,5 +36,4 @@ export abstract class BaseCompiler {
   }
 
   abstract compile(dto: any): Promise<TestETHDto>;
-  abstract validate(deployData: TestETHDto): Promise<boolean>;
 }
