@@ -87,7 +87,9 @@ export abstract class BaseETHTests implements ETHTest {
       });
     }
 
-    const negativeResults = this.results.filter((result) => !result).length;
+    const negativeResults = this.results.filter(
+      (result) => result.result === false,
+    ).length;
 
     this.results.forEach(({ result, testName }, inx) => {
       console.log(
