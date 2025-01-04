@@ -16,11 +16,4 @@ export class ETHCompiler {
     }
     return this.strategy.compile(dto);
   }
-
-  validate(deployData: TestETHDto): Promise<boolean> {
-    if (!this.strategy) {
-      throw new Error('Strategy is not set');
-    }
-    return this.strategy.validate(deployData);
-  }
 }
