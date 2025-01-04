@@ -4,16 +4,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { BaseCompiler } from 'src/infrastructure/abstracts/abstract-compiler/abstract-compiler';
 import ERC20CompileDto from '../../dtos/compile-contract-erc20/compile-contract-erc20.dto';
-import { ERC20DeploymentTests } from './../../tests/erc20/implementations/erc20-deployment-tests';
 import TestETHDto from 'src/infrastructure/dtos/test-eth/test-eth.dto';
-import { TestsERC20 } from '../tests-erc20/tests-erc20.service';
 
 @Injectable()
 export class CompilerERC20Service extends BaseCompiler {
-  constructor(private readonly testsService: TestsERC20) {
-    super();
-  }
-
   async compile(dto: ERC20CompileDto): Promise<TestETHDto> {
     const formattedCode = this.format(dto.sourceCode);
 
@@ -29,8 +23,6 @@ export class CompilerERC20Service extends BaseCompiler {
         dto.tokenName,
       );
       const deployData = this.prepareDeployData(compiledContract);
-
-      await this.validate(deployData);
       return deployData;
     } catch (error) {
       console.log(error);
@@ -95,15 +87,5 @@ export class CompilerERC20Service extends BaseCompiler {
       abi: compiledContract.abi,
       bytecode: compiledContract.evm.bytecode.object,
     };
-  }
-
-  async validate(deployData: TestETHDto): Promise<boolean> {
-    const deploymentTests = new ERC20DeploymentTests();
-
-    this.testsService.addTest(
-      deploymentTests.testDeployment.bind(deploymentTests, deployData),
-    );
-
-    return await this.testsService.runTests(this.testsService.tests);
   }
 }
