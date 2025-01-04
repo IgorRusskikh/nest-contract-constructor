@@ -1,5 +1,7 @@
 import { BaseETHTests } from 'src/infrastructure/abstracts/abstract-eth-tests/abstract-eth-tests';
 import IERC20TransactionTests from 'src/infrastructure/interfaces/test-erc20-transaction/test-erc20-transaction.interface';
+import { TestERC20Dto } from 'src/infrastructure/dtos/test-erc20/test-erc20.dto';
+import ethers from 'ethers';
 
 export class ERC20TransactionTests
   extends BaseETHTests
@@ -29,9 +31,32 @@ export class ERC20TransactionTests
     }
   }
 
-  async checkTotalSupply(): Promise<boolean> {
-    // Ваша логика для проверки общего объема
-    return true; // или false в зависимости от результата
+  async checkTotalSupply({
+    decimals,
+    totalSupply,
+  }: TestERC20Dto): Promise<boolean> {
+    try {
+      if (!this.deployedContract) {
+        // TODO: ADD RETURN MESSAGE THAT NEED TO DEPLOY FIRSTLY
+      }
+
+      const contractTotalSupply = BigInt(
+        await this.deployedContract.totalSupply(),
+      );
+      const calcSupply = BigInt(totalSupply) * 10n ** BigInt(decimals);
+
+      if (contractTotalSupply !== calcSupply) {
+        console.log(
+          `Contract total supply (${contractTotalSupply}) isn't equal user total supply ${calcSupply}`,
+        );
+        return false;
+      }
+
+      return true;
+    } catch (err) {
+      console.log(`Error checking total supply: ${err}`);
+      return false;
+    }
   }
 
   async testApprove(): Promise<boolean> {
