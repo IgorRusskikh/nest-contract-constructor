@@ -11,6 +11,7 @@ export class TestERC20Service extends BaseETHTests {
     this.addTest([
       deployment.testDeployment.bind(this, testERC20Dto),
       transactions.checkOwnerBalance.bind(this),
+      transactions.checkTotalSupply.bind(this, testERC20Dto),
     ]);
   }
 }
