@@ -16,5 +16,9 @@ export class ContractTestController {
     if (!testsResult) {
       throw new BadRequestException("Some tests isn't passed");
     }
+
+    return {
+      message: 'All tests is passed',
+    };
   }
 }
